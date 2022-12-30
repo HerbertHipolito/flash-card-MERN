@@ -4,6 +4,7 @@
 
 #get-id-video h1{
     font-size: 200%;
+    color:white
 }
 
 #link-div{
@@ -40,3 +41,61 @@
     background-color: var(--color4);
     transform: translateY(-0.5vh);
 }
+
+#words-div{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap:3vh 2vw;
+    margin: 5vh 3vw;
+    padding: 5vh 2vw;
+    background-color: var(--color5);
+}
+
+.word-div{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 2px black;
+}
+
+#loading-p{
+    padding:0.6vh 1vw;
+    margin:3vh 10vw;
+    font-size:140%;
+    background-color:rgb(154, 236, 30);
+}
+
+.word-p{
+    margin-right: 10px;
+    font-size: 120%;
+}
+
+#datalist-div{
+    margin: 10vh 0;
+}
+
+#datalist-div-2{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 130%;
+}
+
+#send-words-btn{
+    margin:3vh 43vw;
+    padding: 1vh;
+    font-size: 150%;
+    background-color: var(--color4);
+    border: none;
+    color:var(--color0);
+    cursor: pointer;
+    box-shadow: 0px 0px 2px black;
+}
+
+#send-words-btn:hover{
+    background-color: var(--color2);
+}
+

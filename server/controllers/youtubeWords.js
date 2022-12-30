@@ -11,7 +11,7 @@ const getSelectWords = async (req,res) =>{
 
     if(!req?.params?.id || req?.params?.id === "") throw new Error("Video id not received");
 
-    const user = await users.findOne({login:req.session.user.login});
+    const user = await users.findOne({login:req?.session?.user?.login});
     var getSubtitles = require('youtube-captions-scraper').getSubtitles;
 
     const allPhases = getSubtitles({
@@ -86,7 +86,6 @@ const postSelectWords = async (req,res) =>{
     
     if(!req.body) return res.status(400).json({'message':'words not received'});
     try{
-        
         const myDeck = await decks.findOne({author:req.session.user.login,title:req.body.deckName})
         
         delete req.body.deckName
@@ -94,16 +93,14 @@ const postSelectWords = async (req,res) =>{
         if(!myDeck) throw new Error('deck not found');
         
         var myCards = myDeck.content;        //Getting the old cards
-        var englishWords = Object.keys(req.body); // Getting the english words selected by the user.
-
-        var translatedwords = await translate(englishWords, "pt");
-
+       
+        var translatedwords = await translate(req.body.selectedWords, "pt");
         translatedwords = translatedwords.split(",");
 
         for(let i=0;i<translatedwords.length;i++){ //Joining the cards with the new ones.
 
             translatedwords[i] = translatedwords[i].replace(' ',''); //removing the space character from the words.
-            myCards.push({"nameCard":englishWords[i].toLowerCase(),"result":translatedwords[i].toLowerCase(),"learned":false,"hits":0,"failure":0});
+            myCards.push({"nameCard":req.body.selectedWords[i].toLowerCase(),"result":translatedwords[i].toLowerCase(),"learned":false,"hits":0,"failure":0});
 
         }
 
@@ -118,7 +115,7 @@ const postSelectWords = async (req,res) =>{
 
     }catch(err){
         console.log(err);
-        return res.status(400).send({error:err});
+        return res.status(400).send({error:err.message});
     }
     
 }

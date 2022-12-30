@@ -54,8 +54,6 @@ function SplitingContant(content){
 const registerNewDeck = async (req,res) =>{
 
     try{
-        var content = [];
-        
         if(!(req.body?.title && req.body?.description )) throw Error('Input missing');
 
         const duplicate = await decks.findOne({title:req.body.title});
@@ -64,25 +62,24 @@ const registerNewDeck = async (req,res) =>{
 
         const dateNow = `${format(new Date(),'MM/dd/yyyy HH:mm:ss')}`;
         
-        if(req.body?.content) content = SplitingContant(req.body.content);
+        //if(req.body?.content) content = SplitingContant(req.body.content);
 
         const result = await decks.create({
             "title":req.body.title,
             "description":req.body.description,
             "author":req.session.user.login,
             "date":dateNow,
-            "content":content,
+            "content":req.body.content,
             "used":0
         });
         
         if(!result) throw Error('Error during deck creation');
 
-        return res.status(200).redirect('/');
+        return res.status(200).send({error:false});
 
     }catch(err){
-
         console.log(err);
-        return res.status(400).send({error:err});
+        return res.status(400).send({error:err.message});
     }
 
 }
