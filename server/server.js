@@ -10,7 +10,7 @@ mongoose.set("strictQuery", false);
 const store = new session.MemoryStore();
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: '*',
     credentials:true
 }));
 
