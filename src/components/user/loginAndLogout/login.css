@@ -1,0 +1,49 @@
+#login-section{
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 15vh 0;
+    align-items: center;
+}
+
+#login-section h1{
+    font-size: 250%;
+    color:var(--color0)
+}
+
+#login-div input{
+    margin: 5vw 3vw;
+    padding: 1vh;
+    background-color: var(--color1);
+    border:none;
+    border-bottom: 3px solid var(--color2);
+    font-size: 130%;
+    color:var(--color0)
+}
+
+#btns-div button{
+    margin:0 3vw;
+    padding:1vh 2vw;
+    font-size: 130%;
+    background-color: var(--color2);
+    color:var(--color0); 
+    box-shadow: 0px 0px 6px black;
+    border: none;
+    cursor: pointer;
+    transition-duration: 0.7s;
+    transition-timing-function: ease;
+}
+
+#btns-div button:hover{
+    transform:translateY(-0.4vh);
+}
+
+#error-message{
+    margin-bottom: 3vh;
+    background-color: rgb(247, 34, 34);
+    max-width: 40vw;
+    padding: 0.5vh 2vw;
+    color: var(--color0);
+}
+

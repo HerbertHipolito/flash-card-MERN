@@ -1,0 +1,27 @@
+#home {
+    height: 60vh;
+    padding: 15vh 5vw;
+}
+
+#home p{
+    color: white
+}
+
+#body-text-title,#body-text-scroll{
+    margin: 4vh;
+    font-size: 150%;
+}
+
+#body-text-title{
+    font-size: 200%;
+}
+
+#body-text-explanation{
+    font-size: 220%;
+    margin-right:  3vw
+}
+
+#body-text-scroll{
+    border-bottom: 1px solid var(--color0);
+    width: fit-content;
+}

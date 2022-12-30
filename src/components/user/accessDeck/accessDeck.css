@@ -1,0 +1,147 @@
+#section-play{
+    min-height: 80vh;
+}
+
+#border-accessDeck{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin:10vh 0;
+    margin-bottom: 5vh;
+}
+
+#border-title{
+    font-size: 250%;
+    margin:5vh 0;
+}
+
+#border-box{
+    padding: 4vh 4vw;
+    box-shadow: 0px 0px 6px black;
+    max-width: 28vw;
+    margin: 2vh 0;
+    background-color:var(--color5)
+}
+
+#card-name-div{
+    display: flex;
+    flex-direction: row;
+    margin: 0 6vw;
+    align-items: center;
+    justify-content: center;
+}
+
+#card-Name{
+    font-size: 200%;
+    margin: 5vh 0;
+    margin-right: 3vw;
+}
+
+#hear{
+    height: 4vh;
+    width: 3vw;
+    border-radius: 50%;
+    border:none;
+    background-color: var(--color2);
+    position: absolute;
+    margin-left: 13vw;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+    font-size: 150%;
+    padding: 6px 0
+}
+
+#hear:hover{
+    background-color: var(--color2);
+}
+
+#reveal-button{
+    padding: 0.5vh;
+    font-size: 110%;
+    margin: 2vh 0;
+}
+
+#rate-control{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1vh 0;
+    padding:0.5vh 0;
+}
+
+#card-input{
+    margin: 2vh 0;
+    padding:0.5vh 0.6vw;    
+    font-size: 120%;
+    background-color: var(--color1);
+    border:none;
+    box-shadow: 0px 0px 3px black;
+}
+
+#card-buttons{
+    margin: 3vh 0;
+}
+
+
+#card-buttons button{
+    padding: 0.4vh 1vw;
+    font-size: 150%;
+    margin: 0 2vh;
+    border:none;
+    box-shadow: 0px 0px 4px black;
+    cursor: pointer;
+}
+
+#card-buttons button:hover{
+
+    background-color: var(--color1);
+
+}
+
+#radio-hidden{
+    margin: 1vh 0
+}
+
+#reveal-button{
+    border:none;
+    padding:1vh 1vw;
+    cursor: pointer;
+    box-shadow: 0px 0px 3px black;
+}
+
+#reveal-button:hover{
+    background-color: var(--color4);
+}
+
+#word-rate{
+    font-size: 140%;
+    padding-bottom:5px;
+    padding-right:10px;
+}
+
+#rate-input{
+    -webkit-appearance: none;
+    outline: none;
+    height: 15px;
+    background: var(--color1);
+    border: 0.5px solid black;
+  }
+  #rate-input::-webkit-slider-thumb{
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      height:15px;
+      width: 16px;
+      background: var(--color2);
+  }
+
+  #word-rate,#reveal-button,#card-buttons button,#border-title,#card-input,#card-Name,#radio-text,#border-chosen{
+    color:black
+  }
+
+  #reveal-button,#card-buttons button{
+    background-color: var(--color2);
+  }

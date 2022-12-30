@@ -1,0 +1,30 @@
+.App{
+  color: black;
+}
+
+header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: var(--color2);
+  padding: 1vh 3vw;
+  font-size: 180%;
+  color:white;
+  box-shadow: 0px 0px 4px black;
+}
+
+header div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+header div p{
+  padding: 0 1vw
+}
+
+.link-name{
+  text-decoration: none;
+  list-style: none;
+  color: white;
+}

@@ -1,0 +1,16 @@
+#footer-section{
+    width: 100%;
+    background-color: var(--color2);
+    color:var(--color0);
+    text-align: center;
+    padding:1vh 0;
+}
+
+#footer-text{
+    font-size: 120%;
+}
+
+.footer-unlogged{
+    position: absolute;
+    bottom: 0%;
+}

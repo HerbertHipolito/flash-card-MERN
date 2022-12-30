@@ -1,0 +1,78 @@
+#myDeck-section{
+    padding:10vh 0;
+    min-height: 50vh;
+    text-align: center;
+    box-shadow: 0px 2px 4px black;
+}
+
+#deck-list{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4vh;
+    margin: 0 5vw
+}
+
+.deck-itself{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 2px 2px 5px var(--color2);
+    color:var(--color0);
+    padding: 2vh 0;
+    background-color: var(--color4);
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+    cursor:pointer;
+    min-height:23vh;
+}
+
+.deck-itself:hover{
+    transform: translateY(-1vh);
+    background-color: var(--color2);
+}
+
+.link-a{
+    font-style: none;
+    text-decoration: none;
+}
+
+
+#myDeck-title{
+    font-size: 250%;
+    color:var(--color0);
+}
+
+#deck-list{
+    font-size: 130%;
+}
+
+.deck-title{
+    font-size: 150%;
+}
+
+.deck-description{
+    font-size: 80%;
+    padding: 1vh 0;
+}
+
+#card-answser{
+    margin: 0.5vh 0;
+    font-size: 160%;
+}
+
+#myDeck-redirect-btn{
+
+    margin:10vh 0;
+    background-color: var(--color4);
+    font-size: 160%;
+    border:none;
+    padding:1vh 1vw;
+    color:var(--color0);
+    cursor:pointer
+}
+
+#myDeck-redirect-btn:hover{
+    background-color: var(--color2);
+
+}
