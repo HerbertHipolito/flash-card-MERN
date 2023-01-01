@@ -1,4 +1,5 @@
 const decks = require('../model/deck');
+const translate = require('translate');
 const {format} =  require('date-fns');
 
 
@@ -63,13 +64,27 @@ const registerNewDeck = async (req,res) =>{
         const dateNow = `${format(new Date(),'MM/dd/yyyy HH:mm:ss')}`;
         
         //if(req.body?.content) content = SplitingContant(req.body.content);
+        var translatedwords = await translate(req.body.content, "pt");
+        translatedwords = translatedwords.split(",");
+
+        const newWordsAndTranslations = req.body.content.map((word,index) =>{
+
+            return ({
+                nameCard:word,
+                result:translatedwords[index],
+                learned:false,
+                hits:0,
+                failure:0
+            })
+
+        })
 
         const result = await decks.create({
             "title":req.body.title,
             "description":req.body.description,
             "author":req.session.user.login,
             "date":dateNow,
-            "content":req.body.content,
+            "content":newWordsAndTranslations,
             "used":0
         });
         

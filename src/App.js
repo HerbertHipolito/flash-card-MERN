@@ -50,7 +50,12 @@ function App() {
     </div>
   );
 }
+
 /*
+
+converting pdf to text:
+
+https://stackoverflow.com/questions/1554280/how-to-extract-text-from-a-pdf-in-javascript
 
 
 */

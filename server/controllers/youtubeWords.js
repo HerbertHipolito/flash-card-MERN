@@ -9,16 +9,17 @@ function removeDuplicates(Allwords,learnedWords) {
 
 const getSelectWords = async (req,res) =>{
 
-    if(!req?.params?.id || req?.params?.id === "") throw new Error("Video id not received");
-
     const user = await users.findOne({login:req?.session?.user?.login});
     var getSubtitles = require('youtube-captions-scraper').getSubtitles;
+
+    if(!req?.params?.id || req?.params?.id === "") throw new Error("Video id not received");
+    if(!user) throw new Error("User not found");
 
     const allPhases = getSubtitles({
     videoID: `${req.params.id}`,
     lang: 'en' // default: `en`
     }).then(function(captions) {
-
+    
         var textM = captions.reduce((accumulator,text_obj) =>{
             return accumulator + text_obj.text;
         },'')

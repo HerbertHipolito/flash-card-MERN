@@ -53,6 +53,7 @@ export default function Login(props){
                 <input type="password" name="password" placeholder="password"value={password} onChange={inputHandler} required/>
             </div>
             {errorMsg?<p id="error-message">{errorMsg}</p>:null}
+            <p id="create-account-p">Create an account</p>
             <div id="btns-div">
                 <button type="submit" id="submit-btn" onClick={Login}>Login</button>
                 <button  id="clear" onClick={clearUpInputs}>reset</button>

@@ -31,7 +31,7 @@ export default function MyDeck(){
         <section id="myDeck-section">
             <p id="myDeck-title">Your Decks</p>
             <div id="myDeck-redirect-div">
-                <button id="myDeck-redirect-btn" onClick={() =>navigate('/deck/selectVideo')} >Register a new deck</button>
+                <button id="myDeck-redirect-btn" onClick={() =>navigate('/deck/selectVideo')} >Register a new deck or words</button>
             </div>
             <div id="deck-list">
             

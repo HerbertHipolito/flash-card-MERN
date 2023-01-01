@@ -1,11 +1,11 @@
 import React,{useState,useEffect} from 'react';
-
+import PopUp from './popUp/popUp';
 
 export default function GetWords(props){
 
     const [selectedWords,setSelectedWords] = useState([])
     const [myDecksJSON,setMydeckJSON] = useState([]);
-    const [error,setError] = useState(null)
+    const [errorGetWords,setError] = useState(null);
 
     const checkBoxHandler = (e) =>{
 
@@ -18,7 +18,7 @@ export default function GetWords(props){
         }
     }
 
-    const addWordsIntoDeck = (deckName)=>{
+    const addWordsIntoDeck = (deckName)=>{ //Test more that function.
 
         console.log(selectedWords)
         fetch('/deck/youtubeLink/:id',{
@@ -32,38 +32,24 @@ export default function GetWords(props){
                 console.log(res.error)
                 setError(res.error)
             }else{
-                console.log('terminar isso')
-                window.alert('acho q deu certo')
+                window.alert('The deck has successfully been created.')
             }
         })
-
-
     }
 
     const sendWordsHandler = () =>{
 
         const deckTitle = document.getElementById('input-deck').value
-
-        if(deckTitle !== 'Create a new one'){
-            addWordsIntoDeck(deckTitle)
+        console.log(deckTitle)
+        if(!deckTitle) return;
+        if(selectedWords.length===0){
+            window.alert('Please select at least one word.');
+            return;
+        }
+        if(deckTitle === 'Create a new one'){
+            setNewDeckData()
         }else{
-            fetch('/deck/register',{
-                method: 'POST',
-                headers:{'Content-type':'application/json'},
-                body:JSON.stringify({
-                    title:'modificar isso',
-                    description:'implementar ainda',
-                    content:selectedWords
-                })
-            })
-            .then(res=>res.json())
-            .then(res => {
-                if(res.error){
-                    setError(res.error)
-                }else{
-                    window.alert('acho q deu certo')
-                }
-            })
+            addWordsIntoDeck(deckTitle)
         }
     }
 
@@ -79,6 +65,16 @@ export default function GetWords(props){
 
     },[])
 
+    const setNewDeckData = () =>{
+
+        var positionDiv = document.getElementById('description-title-new-deck');
+        const myCurrentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+
+        positionDiv.classList.add('appear')
+        positionDiv.style.bottom = (-myCurrentScroll+window.screen.availHeight/2)+'px';
+        
+    }
+
     return (<>
         <div id="words-div">
             {props.youtubeWords.unknownWords.map((word,index) =>{//use index in map function to identify the words selected by the user.
@@ -88,17 +84,17 @@ export default function GetWords(props){
                 </div>
             })}
         </div>
+        {errorGetWords?<p id="error">{errorGetWords}</p>:null}
 
-        {error?<p id="erro">{error}</p>:null}
+        <PopUp selectedWords={selectedWords}/>
         
         <div id="datalist-div">
             <div id="datalist-div-2">
                 <label htmlFor="decks">
                     Choose a deck to add the selected words:
-                    <input list="decks" name="decksas-name" id="input-deck"/>
+                    <input list="decks" name="decksas-name" id="input-deck" placeholder='Click and select the name dack'/>
                 </label>
                 <datalist id="decks" >
-                {/*ask here whether the user wants to create a new deck or use existing one */ }
                 <option value='Create a new one' />
                 {
                     myDecksJSON.map((deck,index)=>{
@@ -106,6 +102,7 @@ export default function GetWords(props){
                     })
                 }
                 </datalist>
+                {/*<button onClick={setNewDeckData}>Just to test</button>*/}
                 <button id="send-words-btn" onClick={sendWordsHandler}>Enviar</button>
             </div>
         </div>
