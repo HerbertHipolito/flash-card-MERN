@@ -1,21 +1,20 @@
 import React,{useState} from 'react';
 import './pdfReader.css';
-import { AiTwotoneSound } from "react-icons/ai";
+import Phares from './phrases/phrases'
 
 
 export default function PdfReader(){
 
     const [pdf,setPDF] = useState(null);
     const [splitPdfText,setSplitPdfText] = useState('');
-    const [voicesOptions,setVoicesOptions] = useState([]);
+    const [translatedText,setTranslatedText] = useState([]);
+    const [voicesOptions,setVoicesOptions] = useState(window.speechSynthesis.getVoices());
+    const [SpeechState,setSpeechState] = useState('Waiting');
     let mypdf = new FormData();
 
     const handlePdf = (e) =>  setPDF(e.target.files[0])
 
     const uploadHandler = () =>{
-
-        //const resultTextBox =  document.getElementById('result-text');
-        //const testText = document.getElementById('test-p-text');
 
         if(!pdf) return window.alert('PDF not selected');
         mypdf.append('pdfFile',pdf);
@@ -29,9 +28,9 @@ export default function PdfReader(){
             console.log(res)
             if (!res.error) {
                 setSplitPdfText(res.splitPdfText)
-                //resultTextBox.value = res.PdfText;
-                //#testText.innerHTML = res.PdfText;            
-                console.log(res.translatedText)
+                setTranslatedText(res.translatedText)
+            }else{
+                console.log(res.error)
             }
         })
     }
@@ -45,12 +44,9 @@ export default function PdfReader(){
         if('speechSynthesis' in window){
 
             const synth = window.speechSynthesis;
-    
-            const utterThis = new SpeechSynthesisUtterance(content);
-
-            //console.log(synth.getVoices()[0].name,synth.getVoices()[0].lang)
             setVoicesOptions(synth.getVoices())
-
+            const utterThis = new SpeechSynthesisUtterance(content);
+    
             utterThis.rate = rateWords.value;
             utterThis.lang = "en-US";
             
@@ -65,8 +61,7 @@ export default function PdfReader(){
     const SpeakText = (e)=>{
 
         e.preventDefault();
-
-        console.log(e.target,e.target.id)
+        setSpeechState('Speaking')
         var count = 0;
         if(e.target?.id){
             while(true){
@@ -74,7 +69,28 @@ export default function PdfReader(){
                 count+=1;
                 if(count>=5) break;  
             }   
+        }else{
+            while(true){
+                speak(splitPdfText[parseInt(e.target.parentElement.id.split('-')[0])+count])
+                count+=1;
+                if(count>=5) break;  
+            }   
         }
+    }
+
+    const displayTranslation = (e) =>{
+        e.preventDefault();
+
+        if(e.target?.id){
+            const currentPosition  = e.target.id.split('-')[0]
+            const getPhrase = document.getElementById(currentPosition+'-translated-p');
+            getPhrase.classList.contains('appear')?getPhrase.classList.remove('appear'):getPhrase.classList.add('appear');
+        }else{
+            const currentPosition  = e.target.parentElement.id.split('-')[0]
+            const getPhrase = document.getElementById(currentPosition+'-translated-p');
+            getPhrase.classList.contains('appear')?getPhrase.classList.remove('appear'):getPhrase.classList.add('appear');
+        }
+
     }
 
     return(
@@ -83,35 +99,39 @@ export default function PdfReader(){
                 <input type="file" onChange={handlePdf} id="in-file"/>
                 <button type="button" onClick={uploadHandler} id="btn-upload" accept=".pdf">Upload</button>
             </div>
-            {/*<textarea id="result-text" placeholder='Your PDF text will apear here..'></textarea>*/}
             <br/>
             <p id="test-p-text"></p>
             <div id="text-div">
-                <div id="text-div-btn">
-                    <button type='button' id="resume-speaking-btn" className='speaking-btn' onClick={e => window.speechSynthesis.resume()}> Resume </button>
-                    <button type='button' id="pause-speaking-btn" className='speaking-btn' onClick={e => window.speechSynthesis.pause()}> Pause </button>
-                    <button type='button' id="stop-speaking-btn" className='speaking-btn' onClick={e => window.speechSynthesis.cancel()}> Stop </button>
-                </div>
-                <div>
-                    <input type="range" min="0.2" max="2" defaultValue="1"  step="0.1" id="rate-input"/>
-
-                    {voicesOptions.length!==0?
-                    <datalist id="voice-options" >
-                        {console.log(voicesOptions.length)}
-                        { 
-                            voicesOptions.map((voice,index)=>{
-                                return  <option value={`Name: ${voice.name} lang:${voice.lang}`} key={index}/>
-                            })
-                        }
-                    </datalist>:null}
-                </div>
-                {splitPdfText?splitPdfText.map((chunk,index)=>{
-                    if(!chunk) return null
-                    return <div key={index+"-div"} className="div-phares">
-                    <p key={index}>{chunk}</p>
-                    <button key={index+'-hear'} id={index+"-hear"} type="button" onClick={e => SpeakText(e)} className="hear-phares">< AiTwotoneSound id={index+"-hear"} /></button>
+                <div id="header-speak">
+                    <div id="text-div-btn">
+                        <button type='button' id="resume-speaking-btn" className='speaking-btn' onClick={e => {window.speechSynthesis.resume(); setSpeechState('Speaking')}}> Resume </button>
+                        <button type='button' id="pause-speaking-btn" className='speaking-btn' onClick={e => {window.speechSynthesis.pause();setSpeechState('Paused')}}> Pause </button>
+                        <button type='button' id="stop-speaking-btn" className='speaking-btn' onClick={e =>{window.speechSynthesis.cancel();setSpeechState('Waiting')}}> Stop </button>
                     </div>
-                }):<p id="text-will-appear">Your text will appear here..</p>}
+                    <div id="range-option-inputs">
+                        <input type="range" min="0.2" max="2" defaultValue="1"  step="0.1" id="rate-input"/>
+                        
+                        {voicesOptions.length!==0?
+                        <div>
+                        <label htmlFor="voice-options">
+                            <input list="voice-options"  id="input-voice-options" placeholder='Click and select language'/>
+                        </label>
+                        <datalist id="voice-options" >
+                            { 
+                                voicesOptions.map((voice,index)=>{
+                                    return  <option value={voice.name+' '+voice.lang} key={index+'-voice'}/>
+                                })
+                            }
+                        </datalist>
+                        </div>:null}
+                    </div>
+                    <div id="state-speech-div">
+                        <p id="state-speech-p">{SpeechState}</p>
+                    </div>
+                </div>
+
+                <Phares splitPdfText={splitPdfText} translatedText={translatedText} SpeakText={SpeakText} displayTranslation={displayTranslation}/>
+
             </div>
         </section>
     );

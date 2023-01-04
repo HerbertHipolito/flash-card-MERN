@@ -34,19 +34,22 @@
     padding: 5vh
 }
 
-.hear-phares{
+.hear-phrase,.translated-phares-p{
     cursor: pointer;
-    padding:10px;
     border-radius: 50%;
     border: none;
     background-color: var(--color2);
     color: var(--color0);
-    margin-left: 2vw;
+    margin: 0 1vw;
     height: 4vh;
-
+    padding: 5px;
 }
 
-.div-phares{
+.hear-phrase{
+    margin-left: 4vw;
+}
+
+.div-phrase{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -70,4 +73,44 @@
 #text-will-appear{
     margin:5vh 0;
     font-size: 140%;
+}
+
+.translated-phares{
+    display:none;
+}
+
+.translated-phares.appear{
+    display:flex;
+    background-color: rgb(233, 233, 159);
+    color:black;
+    font-size: 80%;
+}
+
+.btn-phrase{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.phrases-and-translation{
+    display: flex;
+    flex-direction: column;
+}
+
+#header-speak{
+    margin-bottom: 5vh;
+}
+
+#input-voice-options{
+    padding: 0.7vw;
+    background-color: var(--color1);
+    color: var(--color0);
+    border:1px solid black
+}
+
+#range-option-inputs{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin: 1vh 30vw;
 }
