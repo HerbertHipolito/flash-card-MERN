@@ -4,6 +4,8 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
+const fileUpload = require('express-fileupload');
+
 //const {isAuthUser,isAuthAdmin} = require('./middlewares/auth');
 mongoose.set("strictQuery", false);
 
@@ -28,6 +30,7 @@ const connection = connectDB();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(fileUpload())
 
 app.use(session({
     secret: process.env.DATABASE_SECRET,
@@ -35,13 +38,14 @@ app.use(session({
     resave:false,
     saveUninitialized:true,
     cookie:{
-        maxAge:1000*60*15
+        maxAge:1000*60*30
     },
     store
 }));
 
 app.use('/user',require('./routes/user'))
 app.use('/deck',require('./routes/deck'))
+app.use('/pdf',require('./routes/pdf'))
 
 mongoose.connection.once('open',()=>{
     console.log('connected to mongoDB');

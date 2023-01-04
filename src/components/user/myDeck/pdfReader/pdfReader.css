@@ -1,0 +1,73 @@
+#pdf-section{
+    min-height: 60vh;
+    margin: 10vh 3vw;
+}
+
+#input-button-div{
+    margin: 5vh 0;
+}
+
+#btn-upload{
+    background-color: var(--color2);
+    padding: 1vh 1.5vw;
+    font-size: 150%;
+    border:none;
+    color:var(--color0);
+    cursor: pointer;
+}
+
+#result-text{
+    width:100%;
+    height: 60vh; 
+    font-size: 220%;
+    text-align: center;
+    background-color: var(--color4);
+    color: var(--color0);
+
+}
+
+#text-div{
+    text-align: center;
+    font-size: 180%;
+    background-color: var(--color4);
+    color: var(--color0);
+    padding: 5vh
+}
+
+.hear-phares{
+    cursor: pointer;
+    padding:10px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--color2);
+    color: var(--color0);
+    margin-left: 2vw;
+    height: 4vh;
+
+}
+
+.div-phares{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.speaking-btn{
+    background-color: var(--color2);
+    color: var(--color0);
+    padding: 1vh;
+    font-size: 120%;
+    border: none;
+    cursor: pointer;
+    margin: 2vh 3vw;
+    min-width:10vw;
+}
+
+.speaking-btn:hover{
+    background-color: var(--color1);
+}
+
+#text-will-appear{
+    margin:5vh 0;
+    font-size: 140%;
+}

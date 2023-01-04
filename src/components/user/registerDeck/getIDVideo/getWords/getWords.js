@@ -77,7 +77,7 @@ export default function GetWords(props){
 
     return (<>
         <div id="words-div">
-            {props.youtubeWords.unknownWords.map((word,index) =>{//use index in map function to identify the words selected by the user.
+            {props.youtubeWords.unknownWords.map((word,index) =>{
                 return <div className="word-div" key={word+'div'}> 
                     <p className="word-p" key={word+'p'}>{word}</p>
                     <input type="checkbox" id={index} onClick={checkBoxHandler} name="radio-hidden" value="hide"/>
@@ -102,7 +102,7 @@ export default function GetWords(props){
                     })
                 }
                 </datalist>
-                {/*<button onClick={setNewDeckData}>Just to test</button>*/}
+                
                 <button id="send-words-btn" onClick={sendWordsHandler}>Enviar</button>
             </div>
         </div>

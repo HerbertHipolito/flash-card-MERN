@@ -1,6 +1,7 @@
 import './myDeck.css'
 import React,{useState,useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
+import PdfReader from './pdfReader/pdfReader'
 
 
 export default function MyDeck(){
@@ -27,7 +28,7 @@ export default function MyDeck(){
 
     },[])
 
-    return (
+    return (<>
         <section id="myDeck-section">
             <p id="myDeck-title">Your Decks</p>
             <div id="myDeck-redirect-div">
@@ -56,6 +57,8 @@ export default function MyDeck(){
             </div>
 
         </section>
+        <PdfReader/>
+        </>
     )
 
 }
