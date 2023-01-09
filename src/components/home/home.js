@@ -1,6 +1,7 @@
 import React from 'react';
 import './home.css';
 import MyDeck from '../user/myDeck/myDeck';
+import PdfReader from '../user/myDeck/pdfReader/pdfReader'
 
 export default function Home(props){
 
@@ -17,6 +18,7 @@ export default function Home(props){
         {
             (props.logged && props.logged!=='loading')?<MyDeck/>:null
         }
+        <PdfReader/>
         </>
     )
 

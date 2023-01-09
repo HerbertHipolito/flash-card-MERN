@@ -6,18 +6,32 @@ import Phares from './phrases/phrases'
 export default function PdfReader(){
 
     const [pdf,setPDF] = useState(null);
-    const [splitPdfText,setSplitPdfText] = useState('');
-    const [translatedText,setTranslatedText] = useState([]);
     const [voicesOptions,setVoicesOptions] = useState(window.speechSynthesis.getVoices());
     const [SpeechState,setSpeechState] = useState('Waiting');
+    const [initialPage,setInitalPage] = useState(0);
+    const [lastPage,setLastPage] = useState(5);
+    const [pdfState,setpdfState] =  useState(null);
+    const [allContent,setAllContent] = useState([]);
+
+
     let mypdf = new FormData();
 
     const handlePdf = (e) =>  setPDF(e.target.files[0])
 
+    const inputPagesHandler = (e) =>  e.target.id === "input-initial-page"?setInitalPage(e.target.value):setLastPage(e.target.value)
+
+
     const uploadHandler = () =>{
 
         if(!pdf) return window.alert('PDF not selected');
+        if(initialPage>lastPage) return window.alert('First page is greater than last page');
+        if(initialPage<0) return window.alert('First page is less than 0');
+
+        setpdfState('Loading')
+        
         mypdf.append('pdfFile',pdf);
+        mypdf.append('initialPage',initialPage);
+        mypdf.append('lastPage',lastPage);
 
         fetch('/pdf/extractText',{
             method:"POST",
@@ -27,11 +41,11 @@ export default function PdfReader(){
         .then(res=>{
             console.log(res)
             if (!res.error) {
-                setSplitPdfText(res.splitPdfText)
-                setTranslatedText(res.translatedText)
+                setAllContent(res.allContent)
             }else{
                 console.log(res.error)
             }
+            setpdfState(null)
         })
     }
 
@@ -65,39 +79,35 @@ export default function PdfReader(){
         var count = 0;
         if(e.target?.id){
             while(true){
-                speak(splitPdfText[parseInt(e.target.id.split('-')[0])+count])
+                speak(allContent[parseInt(e.target.id.split('-')[0])+count].str)
                 count+=1;
                 if(count>=5) break;  
             }   
         }else{
             while(true){
-                speak(splitPdfText[parseInt(e.target.parentElement.id.split('-')[0])+count])
+                speak(allContent[parseInt(e.target.parentElement.id.split('-')[0])+count].str)
                 count+=1;
                 if(count>=5) break;  
             }   
         }
     }
 
-    const displayTranslation = (e) =>{
-        e.preventDefault();
-
-        if(e.target?.id){
-            const currentPosition  = e.target.id.split('-')[0]
-            const getPhrase = document.getElementById(currentPosition+'-translated-p');
-            getPhrase.classList.contains('appear')?getPhrase.classList.remove('appear'):getPhrase.classList.add('appear');
-        }else{
-            const currentPosition  = e.target.parentElement.id.split('-')[0]
-            const getPhrase = document.getElementById(currentPosition+'-translated-p');
-            getPhrase.classList.contains('appear')?getPhrase.classList.remove('appear'):getPhrase.classList.add('appear');
-        }
-
-    }
-
+    
     return(
         <section id="pdf-section">
             <div id="input-button-div">
-                <input type="file" onChange={handlePdf} id="in-file"/>
-                <button type="button" onClick={uploadHandler} id="btn-upload" accept=".pdf">Upload</button>
+                <div id="file-btn-input">
+                    <input type="file" onChange={handlePdf} id="in-file"/>
+                    <button type="button" onClick={uploadHandler} id="btn-upload" accept=".pdf">Upload</button>
+                </div>
+                
+                <div id="first-final-page-inputs">
+
+                    <input type="text" value={initialPage} id="input-initial-page" onChange={inputPagesHandler} placeholder="First page"/>
+                    <input type="text" value={lastPage}  id="input-initial-last" onChange={inputPagesHandler} placeholder="Last page"/>
+
+                </div>
+
             </div>
             <br/>
             <p id="test-p-text"></p>
@@ -130,8 +140,9 @@ export default function PdfReader(){
                     </div>
                 </div>
 
-                <Phares splitPdfText={splitPdfText} translatedText={translatedText} SpeakText={SpeakText} displayTranslation={displayTranslation}/>
-
+                {allContent.length !== 0?
+                <Phares  allContent={allContent} SpeakText={SpeakText} pdfState={pdfState}/>:
+                <p id="text-will-appear">{pdfState?pdfState:'Your text will appear here..'}</p>}
             </div>
         </section>
     );

@@ -19,6 +19,7 @@
     "express-session": "^1.17.3",
     "mongoose": "^6.8.1",
     "pdf-parse": "^1.1.1",
+    "pdf.js-extract": "^0.2.1",
     "translate": "^1.4.1",
     "youtube-captions-scraper": "^2.0.0"
   }

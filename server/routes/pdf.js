@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const {isAuthUser} = require('../middlewares/auth');
+//const {isAuthUser} = require('../middlewares/auth');
 const {PdfControllers} = require('../controllers/PdfControllers')
 
-router.post('/extractText',isAuthUser,PdfControllers);
+router.post('/extractText',PdfControllers);
 
 module.exports = router;
