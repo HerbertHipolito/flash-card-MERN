@@ -1,10 +1,8 @@
-import React,{useState,useEffect} from 'react';
+import React,{useEffect} from 'react';
 import { AiTwotoneSound, AiFillEye} from "react-icons/ai";
 import translate from 'translate';
 
 export default function Phares(props){
-
-    const [translatedText,setTranslatedText] = useState([]);
 
     const displayTranslation = (e) =>{
         e.preventDefault();
@@ -48,8 +46,8 @@ export default function Phares(props){
                 newP.classList.add('translated-phares')
 
                 divPhrase[index].appendChild(newP);
-                return null;
             }
+            return null;
         })
 
     }
@@ -62,7 +60,6 @@ export default function Phares(props){
                 return 'nada'
             })
          )).then((translatedPhrases) =>{
-            setTranslatedText(translatedContent)
             insertTranslations(translatedPhrases)
         })
 
