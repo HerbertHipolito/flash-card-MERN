@@ -52,6 +52,7 @@ export default function Phares(props){
 
     }
 
+
     useEffect(()=>{
         var translatedContent = translatingText(props.allContent)
 

@@ -1,53 +1,16 @@
 import React,{useState} from 'react';
 import './pdfReader.css';
 import Phares from './phrases/phrases'
+import InputInformation from './input-information/input-informations'
 
 
 export default function PdfReader(){
 
-    const [pdf,setPDF] = useState(null);
     const [voicesOptions,setVoicesOptions] = useState(window.speechSynthesis.getVoices());
-    const [SpeechState,setSpeechState] = useState('Waiting');
-    const [initialPage,setInitalPage] = useState(0);
-    const [lastPage,setLastPage] = useState(5);
+    const [SpeechState,setSpeechState] = useState(null);
     const [pdfState,setpdfState] =  useState(null);
     const [allContent,setAllContent] = useState([]);
-
-
-    let mypdf = new FormData();
-
-    const handlePdf = (e) =>  setPDF(e.target.files[0])
-
-    const inputPagesHandler = (e) =>  e.target.id === "input-initial-page"?setInitalPage(e.target.value):setLastPage(e.target.value)
-
-
-    const uploadHandler = () =>{
-
-        if(!pdf) return window.alert('PDF not selected');
-        if(initialPage>lastPage) return window.alert('First page is greater than last page');
-        if(initialPage<0) return window.alert('First page is less than 0');
-
-        setpdfState('Loading')
-        
-        mypdf.append('pdfFile',pdf);
-        mypdf.append('initialPage',initialPage);
-        mypdf.append('lastPage',lastPage);
-
-        fetch('/pdf/extractText',{
-            method:"POST",
-            body:mypdf
-        })
-        .then(res=>res.json())
-        .then(res=>{
-            console.log(res)
-            if (!res.error) {
-                setAllContent(res.allContent)
-            }else{
-                console.log(res.error)
-            }
-            setpdfState(null)
-        })
-    }
+    const [pharesToSpeakInRow,setPharesToSpeakInRow] = useState(10)
 
     //https://www.youtube.com/watch?v=enfZAaTRTKU
 
@@ -81,42 +44,49 @@ export default function PdfReader(){
             while(true){
                 speak(allContent[parseInt(e.target.id.split('-')[0])+count].str)
                 count+=1;
-                if(count>=5) break;  
+                if(count>=pharesToSpeakInRow) break;  
             }   
         }else{
             while(true){
                 speak(allContent[parseInt(e.target.parentElement.id.split('-')[0])+count].str)
                 count+=1;
-                if(count>=5) break;  
+                if(count>=pharesToSpeakInRow) break;  
             }   
         }
+        setSpeechState('Waiting')
     }
 
     
+    const handlerSpeakText = (e) =>{
+        e.preventDefault();
+
+        if(e.target.name === 'resume-btn' && SpeechState === 'Paused') {
+            window.speechSynthesis.resume()
+            setSpeechState('Speaking');
+        }
+        else if(e.target.name === 'pause-btn' && SpeechState === 'Speaking'){ 
+            window.speechSynthesis.pause()
+            setSpeechState('Paused')
+        }
+        else if(e.target.name === 'stop-btn' && SpeechState){
+            window.speechSynthesis.cancel()
+            setSpeechState('Waiting')
+        }
+
+    }
+
     return(
         <section id="pdf-section">
-            <div id="input-button-div">
-                <div id="file-btn-input">
-                    <input type="file" onChange={handlePdf} id="in-file"/>
-                    <button type="button" onClick={uploadHandler} id="btn-upload" accept=".pdf">Upload</button>
-                </div>
-                
-                <div id="first-final-page-inputs">
-
-                    <input type="text" value={initialPage} id="input-initial-page" onChange={inputPagesHandler} placeholder="First page"/>
-                    <input type="text" value={lastPage}  id="input-initial-last" onChange={inputPagesHandler} placeholder="Last page"/>
-
-                </div>
-
-            </div>
+           
+            <InputInformation setpdfState={setpdfState} setPharesToSpeakInRow={setPharesToSpeakInRow} setAllContent={setAllContent} />
             <br/>
             <p id="test-p-text"></p>
             <div id="text-div">
                 <div id="header-speak">
                     <div id="text-div-btn">
-                        <button type='button' id="resume-speaking-btn" className='speaking-btn' onClick={e => {window.speechSynthesis.resume(); setSpeechState('Speaking')}}> Resume </button>
-                        <button type='button' id="pause-speaking-btn" className='speaking-btn' onClick={e => {window.speechSynthesis.pause();setSpeechState('Paused')}}> Pause </button>
-                        <button type='button' id="stop-speaking-btn" className='speaking-btn' onClick={e =>{window.speechSynthesis.cancel();setSpeechState('Waiting')}}> Stop </button>
+                        <button type='button' id="resume-speaking-btn" className='speaking-btn' name="resume-btn" onClick={e => {handlerSpeakText(e)}}> Resume </button>
+                        <button type='button' id="pause-speaking-btn" className='speaking-btn' name="pause-btn" onClick={e => {handlerSpeakText(e)}}> Pause </button>
+                        <button type='button' id="stop-speaking-btn" className='speaking-btn' name="stop-btn" onClick={e =>{handlerSpeakText(e)}}> Stop </button>
                     </div>
                     <div id="range-option-inputs">
                         <input type="range" min="0.2" max="2" defaultValue="1"  step="0.1" id="rate-input"/>
@@ -136,7 +106,7 @@ export default function PdfReader(){
                         </div>:null}
                     </div>
                     <div id="state-speech-div">
-                        <p id="state-speech-p">{SpeechState}</p>
+                        <p id="state-speech-p">{SpeechState?SpeechState:'Insert the PDF text.'}</p>
                     </div>
                 </div>
 

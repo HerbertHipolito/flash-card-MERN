@@ -24,6 +24,14 @@
     background-color: var(--color4);
 }
 
+#first-final-page-inputs{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
 
 #first-final-page-inputs input{
     padding: 0.6vh;
@@ -32,11 +40,13 @@
     font-size: 140%;
     width: 5vw;
     text-align: center;
-    color:var(--color0)
+    color:var(--color0);
+    
 }
-#input-initial-page{
-    margin-right:2vw
+#last-page-div{
+    margin: 0 2vw
 }
+
 
 #result-text{
     width:100%;
