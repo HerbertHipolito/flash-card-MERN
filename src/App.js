@@ -7,31 +7,12 @@ import MyDeck from './components/user/myDeck/myDeck'
 import Footer from './components/footer/footer'
 import AccessDeck from './components/user/accessDeck/accessDeck'
 import GetIdVideo from './components/user/registerDeck/getIDVideo/getIDvideo';
-import React,{useState,useEffect} from 'react'
+import React,{useState} from 'react'
 
 function App() {
 
   const [logged,loggedSet] = useState(false)
   const changeLoggedState = (newState) => loggedSet(newState)
-
-  useEffect(() =>{
-
-    const myFetch = async ()=>{
-
-      await fetch('/user/checkLogin',{
-        method:'POST',
-        headers:{'Content-type':'application/json'},
-        credentials:'include'
-      })
-      .then(res=>res.json())
-      .then(res =>{
-        console.log(res)
-        res.error?loggedSet(false):loggedSet(true)
-      })
-    }
-    loggedSet('loading')
-    myFetch()
-    },[])
 
   return (
     <div className="App">
