@@ -26,7 +26,7 @@ export default function Login(props){
 
         const userInformation = {login,password}
 
-        fetch('/user/login',{
+        fetch('http://localhost:3500/user/login',{
             method: 'POST',
             headers:{'Content-type':'application/json'},
             body:JSON.stringify(userInformation)

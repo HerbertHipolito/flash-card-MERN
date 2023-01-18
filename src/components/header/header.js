@@ -9,7 +9,7 @@ export default function Header(props){
       e.preventDefault()
 
       const myFetch = async ()=>{
-        await fetch('/user/logout')
+        await fetch('http://localhost:3500/user/logout')
         .then(res=>res.json())
         .then(res=>{
           if(!res.error){

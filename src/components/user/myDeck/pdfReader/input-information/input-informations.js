@@ -32,7 +32,7 @@ export default function InputInformation(props){
         mypdf.append('initialPage',initialPage);
         mypdf.append('lastPage',lastPage);
 
-        fetch('/pdf/extractText',{
+        fetch('http://localhost:3500/pdf/extractText',{
             method:"POST",
             body:mypdf
         })
