@@ -12,7 +12,6 @@ export default function PdfReader(){
     const [allContent,setAllContent] = useState([]);
     const [pharesToSpeakInRow,setPharesToSpeakInRow] = useState(10)
 
-    //https://www.youtube.com/watch?v=enfZAaTRTKU
 
     async function speak(content){
 
