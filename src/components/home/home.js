@@ -1,6 +1,5 @@
 import React from 'react';
 import './home.css';
-import MyDeck from '../user/myDeck/myDeck';
 import PdfReader from '../user/myDeck/pdfReader/pdfReader'
 
 export default function Home(props){
@@ -15,9 +14,6 @@ export default function Home(props){
             <p id="body-text-scroll">Scroll down to see how we work</p>
         
         </section>
-        {
-            (props.logged && props.logged!=='loading')?<MyDeck/>:null
-        }
         <PdfReader/>
         </>
     )
