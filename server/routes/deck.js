@@ -2,7 +2,7 @@ const router = require('express').Router()
 const {registerNewDeck,getMyDecks} = require('../controllers/deckControllers');
 const {getSelectWords,getSelectWordsAndPhrases,postSelectWords} = require('../controllers/youtubeWords');
 const {authUsersCard} = require('../middlewares/authUsersCard');
-const {isAuthUser} = require('../middlewares/Auth');
+const {isAuthUser} = require('../middlewares/auth');
 const {getAccessDeckController,postAcessDeckController} = require('../controllers/accessDeckControllers');
 
 router.post('/register',isAuthUser, registerNewDeck);
